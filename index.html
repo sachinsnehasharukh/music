@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Document</title>
+</head>
+<body>
+    <div class="main">
+        <div class="musiccontainer">
+            <h2 id="title">Name song</h2>
+            <h3 id="artist">salman</h3>
+            <div class="image_container">
+                <img src="images/6.png" alt="">
+            </div>
+           <audio src="musics/60.mp3" ></audio>
+           <div class="progressbar_container" id="progress_container">
+               <div class="progress_duration_meter">
+                   
+                   <div class="progress_div" id="progress_div">
+                       <div class="progress" id="progress"></div>
+                   </div>
+               </div>
+           </div>
+           
+            <div class="music_controller">
+                <i class="fa-solid fa-backward" id="prev" title="previous"></i>
+                <i class="fa-solid fa-play main_button" id="pl" title="play"></i>
+                <i class="fa-solid fa-pause main_button2" id="pa" title="play"></i>
+                <i class="fa-solid fa-forward" id="for" title="forward"></i>
+               
+            </div>
+            
+            </div>
+        </div>
+    </div>
+   
+
+   <script>
+
+const play = document.getElementById("pl")
+const pause = document.getElementById("pa")
+const music = document.querySelector("audio")
+const img = document.querySelector("img")
+const title = document.getElementById("title")
+const artist = document.getElementById("artist")
+const next = document.getElementById("for")
+const previous = document.getElementById("prev")
+let progress = document.getElementById("progress")
+let progreas = document.getElementById("progress_div")
+const volume = document.getElementById("volume")
+const fair = document.getElementById("fai")
+let isPlaying = false
+
+const songs = [
+    {
+        name:"6",
+        artist:"alexgender ryback",
+        title:"fairtyle",
+        filepath:"60"
+        
+       
+
+    },
+    {
+        name:"1",
+        artist:"20",
+        title:"tareef",
+        filepath:"20"
+
+    },{
+        name:"3",
+        artist:"stebin",
+        title:"ek tu hi h",
+        filepath:"30"
+
+    },{
+        name:"2",
+        artist:"20",
+        title:"tareef",
+        filepath:"10"
+
+    },{
+        name:"4",
+        artist:"sanam",
+        title:"mere mehboob",
+        filepath:"40"
+    },
+    {
+        name:"5",
+        artist:"kunal bojewar",
+        title:"churaliya",
+        filepath:"50"
+    },
+    {
+        name:"7",
+        artist:"sukhwinder singh",
+        title:"banjara",
+        filepath:"70"
+    }
+    
+]
+
+
+
+play.addEventListener("click",()=>{
+    isPlaying=true
+    music.play()
+    play.classList.replace("fa-play","fa-pause")
+    img.classList.add("anime")
+})
+pause.addEventListener("click",()=>{
+    music.pause()
+    play.classList.replace("fa-pause","fa-play")
+    img.classList.remove("anime")
+})
+
+
+
+
+    const loadSongs=(songs)=>{
+        title.textContent=songs.title
+        artist.textContent=songs.artist
+        music.src="musics/"+songs.filepath+".mp3"
+        img.src="images/"+songs.name+".png"
+    }
+
+//
+songInex=0
+const nextSong =()=>{
+    songInex = (songInex+1) % songs.length
+    loadSongs(songs[songInex])
+    play.classList.replace("fa-pause","fa-play")
+    img.classList.remove("anime")
+    //music.play()
+}
+const previousSong = ()=>{
+    songInex = (songInex-1 % songs.length)
+    loadSongs(songs[songInex])
+    play.classList.replace("fa-pause","fa-play") 
+    img.classList.remove("anime")   ///loadSongs(songs[songInex])
+}
+
+next.addEventListener("click",nextSong)
+previous.addEventListener("click",previousSong)
+
+ music.addEventListener("timeupdate",(event)=>{
+     console.log(event)
+     const {currentTime,duration} = event.srcElement;
+     let progress_time=(currentTime/duration) * 100
+     progress.style.width=`${progress_time}%`
+     progreas.style.backgroundColor=`${progress_time}`
+ })
+ progreas.addEventListener("click",(event)=>{
+console.log(event)
+const {duration} = music;
+let move_progress = (event.offsetX/event.srcElement.clientWidth)*duration
+music.currentTime= move_progress
+ })
+
+ 
+</script>
+    
+</body>
+
+</html>
